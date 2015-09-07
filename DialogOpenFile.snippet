@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>ダイアログ：ファイルを開く</Title>
+			<Shortcut>dialogopenfile</Shortcut>
+			<Description>ファイルを開くダイアログを表示するメソッド</Description>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>title</ID>
+					<ToolTip>ダイアログウィンドウタイトル</ToolTip>
+					<Default>ファイルの選択</Default>
+				</Literal>
+				<Literal>
+					<ID>filename</ID>
+					<ToolTip>デフォルトファイル名</ToolTip>
+					<Default>MyFile</Default>
+				</Literal>
+				<Literal>
+					<ID>filetype</ID>
+					<ToolTip>ファイルの種類</ToolTip>
+					<Default>Excelの選択</Default>
+				</Literal>
+				<Literal>
+					<ID>ext</ID>
+					<ToolTip>ファイルの拡張子</ToolTip>
+					<Default>*.xls</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[
+// Install-Package Windows7APICodePack-Shell 
+public static string ChooseFile()
+{
+	var dialog = new CommonOpenFileDialog();
+	dialog.IsFolderPicker   = false;
+	dialog.Title			= "$title$";
+	dialog.DefaultFileName	= "$filename$";
+	dialog.Filters.Add(new CommonFileDialogFilter("$filetype$", "$ext$"));
+	dialog.EnsureReadOnly	= false;
+	dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+	var result = dialog.ShowDialog();
+
+	return result == CommonFileDialogResult.Ok
+		? dialog.FileName
+		: "";
+}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
